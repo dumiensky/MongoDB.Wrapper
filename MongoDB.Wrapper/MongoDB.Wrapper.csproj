@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>Dumiensky</Authors>
+    <Company />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>A handy CRUD wrapper over MongoDB.Driver.MongoClient. Designed for dependency injection.</Description>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dumiensky/MongoDB.Wrapper</RepositoryUrl>
+    <PackageTags>mongodb, wrapper, crud, di, dependency injection, simple</PackageTags>
+    <PackageReleaseNotes>v0.1.0 - Initial release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
