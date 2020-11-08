@@ -7,6 +7,16 @@ This wrapper is designed with _less-code-is-better_ in mind. It uses code-first 
 ## Installation
 Install [NuGet package **MongoDB.Wrapper**](https://www.nuget.org/packages/MongoDB.Wrapper/)
 
+#### dotnet cli: 
+`dotnet add package MongoDB.Wrapper`
+
+#### .csproj edit:
+```
+<ItemGroup>
+	<PackageReference Include="MongoDB.Wrapper" Version="*" />
+</ItemGroup>
+```
+
 ## Usage
 
 #### Dependency Injection
