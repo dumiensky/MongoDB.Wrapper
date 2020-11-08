@@ -4,6 +4,8 @@ A handy CRUD wrapper with soft deletion over MongoDB.Driver.**MongoClient**.
 
 This wrapper is designed with _less-code-is-better_ in mind. It uses code-first aproach, just install the nuget and start working on the database!
 
+[Usage](https://github.com/dumiensky/MongoDB.Wrapper#usage) | [Examples](https://github.com/dumiensky/MongoDB.Wrapper#examples) | [List of all methods](https://github.com/dumiensky/MongoDB.Wrapper#list-of-all-methods-exposed-by-the-wrapper)
+
 ## Installation
 Install [NuGet package **MongoDB.Wrapper**](https://www.nuget.org/packages/MongoDB.Wrapper/)
 
