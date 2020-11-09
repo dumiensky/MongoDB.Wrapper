@@ -6,7 +6,7 @@
     <Authors>Dumiensky</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>A handy CRUD wrapper over MongoDB.Driver.MongoClient. Designed for dependency injection.</Description>
+    <Description>A handy CRUD wrapper with soft deletion over MongoClient. Designed for dependency injection.</Description>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dumiensky/MongoDB.Wrapper</RepositoryUrl>
     <PackageTags>mongodb, wrapper, crud, di, dependency injection, simple</PackageTags>
@@ -14,11 +14,20 @@
       v0.2.0 - Implementation of Delete(), Restore() and DeleteHard(). Refactor of Replace() method.
       v0.1.0 - Initial release
     </PackageReleaseNotes>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Bson" Version="2.11.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+  </ItemGroup>
+
+  <!-- Source Link -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>
