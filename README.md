@@ -130,10 +130,13 @@ Returned type | Method | Description
 `Task<int>` | **Count(predicate, includeDeleted)**<br/>`Count<TEntity>(Expression<Func<TEntity, bool>> predicate, bool includeDeleted = false)` | Returns the count of entites in the collection of type TEntity that match given predicate
 `Task<TEntity>` | **Get(id)**<br/>`Get<TEntity>(Guid id)` | Returns entity of type TEntity, which Id equals passed Guid. Default if not found
 `Task<List<TEntity>>` | **Get(includeDeleted)**<br/>`Get<TEntity>(bool includeDeleted = false)` | Returns list of entities from collection of type TEntity
-`Task<List<TEntity>>` | **Get(predicate, includeDeleted)**`Get<TEntity>(Expression<Func<TEntity, bool>> predicate, bool includeDeleted = false)` | Returns list of entities from collection of type TEntity, that match the predicate
+`Task<List<TEntity>>` | **Get(predicate, includeDeleted)**<br/>`Get<TEntity>(Expression<Func<TEntity, bool>> predicate, bool includeDeleted = false)` | Returns list of entities from collection of type TEntity, that match the predicate
 `Task<TEntity>` | **FirstOrDefault(predicate, includeDeleted)**<br/>`FirstOrDefault<TEntity>(Expression<Func<TEntity, bool>> predicate, bool includeDeleted = false)` | Returns the first entity from collection of type TEntity, that matches the predicate
 `Task<TEntity>` | **SingleOrDefault(predicate, includeDeleted)**<br/>`SingleOrDefault<TEntity>(Expression<Func<TEntity, bool>> predicate, bool includeDeleted = false)` | Returns the entity from collection of type TEntity, that matches the predicate. If more than one entity matches the predicate, an exception is thrown
-`Task` | **Replace(entity)**<br/>`Replace<TEntity>(TEntity entity)` | Replaces the object of type TEntity with passed object, compared by IEntity.Id. If IEntity.Id equals default, entity is added. When entity with given id is not found, an exception is thrown.
+`Task<bool>` | **Replace(entity)**<br/>`Replace<TEntity>(TEntity entity)` | Replaces the object of type TEntity with passed object, compared by IEntity.Id. If IEntity.Id equals default, entity is added. When entity with given id is not found, an exception is thrown.
+`Task<bool>` | **Delete(id)**<br/>`Delete<TEntity>(Guid id)` | Soft deletes (sets Deleted flag) on entity with given id. Throws an exception if the entity doesn't exist.
+`Task<bool>` | **Restore(id)**<br/>`Restore<TEntity>(Guid id)` | Reverts a soft delete (un-sets Deleted flag) of an entity with given id. Throws an exception if the entity doesn't exist.
+`Task<bool>` | **DeleteHard**<br/>`DeleteHard<TEntity>(Guid id)` | Deleted an entity with given id from the database. This is irreversible. Throws an exception if the entity doesn't exist.
 
 ## Roadmap
 
