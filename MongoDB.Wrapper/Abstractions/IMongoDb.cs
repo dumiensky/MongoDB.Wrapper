@@ -20,7 +20,7 @@ namespace MongoDB.Wrapper.Abstractions
         /// Assigns a new Id to entity and adds it to collection of type TEntity
         /// </summary>
         /// <typeparam name="TEntity">Type of entity</typeparam>
-        /// <param name="obj">Entity to add</param>
+        /// <param name="entity">Entity to add</param>
         Task Add<TEntity>(TEntity entity) where TEntity : IEntity;
 
         /// <summary>
@@ -96,7 +96,28 @@ namespace MongoDB.Wrapper.Abstractions
         /// When entity with given id is not found, an exception is thrown.
         /// </summary>
         /// <typeparam name="TEntity">Type of entity</typeparam>
-        /// <param name="obj">Updated (or new) object</param>
-        Task Replace<TEntity>(TEntity entity) where TEntity : IEntity;
+        /// <param name="entity">Updated (or new) entity</param>
+        Task<bool> Replace<TEntity>(TEntity entity) where TEntity : IEntity;
+
+        /// <summary>
+        /// Soft deletes (sets Deleted flag) on entity with given id. Throws an exception if the entity doesn't exist.
+        /// </summary>
+        /// <typeparam name="TEntity">Type of entity</typeparam>
+        /// <param name="id">Id of the entity</param>
+        Task<bool> Delete<TEntity>(Guid id) where TEntity : IEntity;
+
+        /// <summary>
+        /// Reverts a soft delete (un-sets Deleted flag) of an entity with given id. Throws an exception if the entity doesn't exist.
+        /// </summary>
+        /// <typeparam name="TEntity">Type of entity</typeparam>
+        /// <param name="id">Id of the entity</param>
+        Task<bool> Restore<TEntity>(Guid id) where TEntity : IEntity;
+
+        /// <summary>
+        /// Deleted an entity with given id from the database. This is irreversible. Throws an exception if the entity doesn't exist.
+        /// </summary>
+        /// <typeparam name="TEntity">Type of entity</typeparam>
+        /// <param name="id">Id of the entity</param>
+        Task<bool> DeleteHard<TEntity>(Guid id) where TEntity : IEntity;
     }
 }

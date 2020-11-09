@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Dumiensky</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -10,7 +10,10 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dumiensky/MongoDB.Wrapper</RepositoryUrl>
     <PackageTags>mongodb, wrapper, crud, di, dependency injection, simple</PackageTags>
-    <PackageReleaseNotes>v0.1.0 - Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      v0.2.0 - Implementation of Delete(), Restore() and DeleteHard(). Refactor of Replace() method.
+      v0.1.0 - Initial release
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

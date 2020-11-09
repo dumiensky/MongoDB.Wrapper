@@ -20,12 +20,12 @@ namespace MongoDB.Wrapper
             if (settings == null)
                 throw new ArgumentNullException(nameof(settings));
 
-            _database = 
+            _database =
                 new MongoClient(settings.ConnectionString)
                 .GetDatabase(settings.DatabaseName);
         }
 
-        private IMongoCollection<TEntity> GetCollection<TEntity>() where TEntity: IEntity
+        private IMongoCollection<TEntity> GetCollection<TEntity>() where TEntity : IEntity
         {
             return _database.GetCollection<TEntity>(typeof(TEntity).Name);
         }
@@ -80,7 +80,7 @@ namespace MongoDB.Wrapper
 
         public Task<T> Get<T>(Guid id) where T : IEntity
         {
-            return Query<T>().FirstOrDefaultAsync(_ => _.Id == id);
+            return FirstOrDefault<T>(_ => _.Id == id);
         }
 
         public Task<List<T>> Get<T>(Expression<Func<T, bool>> predicate, bool includeDeleted = false) where T : IEntity
@@ -93,20 +93,52 @@ namespace MongoDB.Wrapper
             return Query<T>(includeDeleted).ToListAsync();
         }
 
-        public async Task Replace<T>(T entity) where T : IEntity
+        public async Task<bool> Replace<T>(T entity) where T : IEntity
         {
             if (entity.Id == default)
             {
                 await Add(entity);
-                return;
+                return true;
             }
 
-            Expression<Func<T, bool>> sameId = _ => _.Id == entity.Id;
+            if (await Get<T>(entity.Id) is T dbEntity)
+            {
+                entity.Deleted = dbEntity.Deleted;
+                entity.Added = dbEntity.Added;
 
-            if (await Any(sameId))
-                await GetCollection<T>().ReplaceOneAsync(sameId, entity);
+                return (await GetCollection<T>().ReplaceOneAsync(_ => _.Id == entity.Id, entity)).IsAcknowledged;
+            }
             else
                 throw new Exception($"Could not replace entity of type {typeof(T).Name}! Entity with id {entity.Id} does not exist!");
+        }
+
+        public Task<bool> Delete<T>(Guid id) where T : IEntity
+        {
+            return DeleteRestoreInternal<T>(id, true);
+        }
+
+        public Task<bool> Restore<T>(Guid id) where T : IEntity
+        {
+            return DeleteRestoreInternal<T>(id, false);
+        }
+
+        private async Task<bool> DeleteRestoreInternal<T>(Guid id, bool state) where T : IEntity
+        {
+            var entity = await Get<T>(id);
+            if (entity == null)
+                throw new Exception($"Entity of type {typeof(T).Name} with id {id} was not found!");
+
+            entity.Deleted = state;
+            return (await GetCollection<T>().ReplaceOneAsync(_ => _.Id == entity.Id, entity)).IsAcknowledged;
+        }
+
+        public async Task<bool> DeleteHard<T>(Guid id) where T : IEntity
+        {
+            var entity = await Get<T>(id);
+            if (entity == null)
+                throw new Exception($"Entity of type {typeof(T).Name} with id {id} was not found!");
+
+            return (await GetCollection<T>().DeleteOneAsync(_ => _.Id == entity.Id)).IsAcknowledged;
         }
     }
 }
