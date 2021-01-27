@@ -1,7 +1,9 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using MongoDB.Wrapper.Abstractions;
+using MongoDB.Wrapper.Models;
 using MongoDB.Wrapper.Settings;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,11 @@ namespace MongoDB.Wrapper
         {
             return _database.GetCollection<TEntity>(typeof(TEntity).Name);
         }
+
+        private IMongoCollection<KeyValueEntity> GetKeysCollection()
+		{
+            return _database.GetCollection<KeyValueEntity>("Keys");
+		}
 
         public IMongoQueryable<TEntity> Query<TEntity>(bool includeDeleted = false) where TEntity : IEntity
         {
@@ -140,5 +147,27 @@ namespace MongoDB.Wrapper
 
             return (await GetCollection<T>().DeleteOneAsync(_ => _.Id == entity.Id)).IsAcknowledged;
         }
+
+        private Task<KeyValueEntity> GetKey(string key)
+        {
+            return GetKeysCollection().AsQueryable().FirstOrDefaultAsync(_ => _.Key == key);
+        }
+
+        public async Task SetKeyValue<T>(string key, T value) where T : class
+		{
+            string serializedValue = JsonConvert.SerializeObject(value);
+
+            if (await GetKeysCollection().AsQueryable().AnyAsync(_ => _.Key == key))
+                await GetKeysCollection().UpdateOneAsync(_ => _.Key == key, Builders<KeyValueEntity>.Update.Set(_ => _.Value, serializedValue));
+            else
+                await GetKeysCollection().InsertOneAsync(new KeyValueEntity { Key = key, Value = serializedValue });
+        }
+
+        public async Task<T> GetKeyValue<T>(string key) where T : class
+		{
+            return (await GetKey(key))?.Value is string value 
+                ? JsonConvert.DeserializeObject<T>(value) 
+                : default;
+		}
     }
 }

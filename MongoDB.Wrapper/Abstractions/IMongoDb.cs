@@ -119,5 +119,17 @@ namespace MongoDB.Wrapper.Abstractions
         /// <typeparam name="TEntity">Type of entity</typeparam>
         /// <param name="id">Id of the entity</param>
         Task<bool> DeleteHard<TEntity>(Guid id) where TEntity : IEntity;
-    }
+
+        /// <summary>
+        /// Persists the value to the key in the database
+        /// </summary>
+		Task SetKeyValue<T>(string key, T value) where T : class;
+
+        /// <summary>
+        /// Gets the value associated to the key
+        /// </summary>
+        /// <typeparam name="T">Type of value to retrieve</typeparam>
+        /// <returns>Value or default</returns>
+		Task<T> GetKeyValue<T>(string key) where T : class;
+	}
 }
