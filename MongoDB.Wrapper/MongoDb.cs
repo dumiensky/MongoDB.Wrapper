@@ -153,20 +153,23 @@ namespace MongoDB.Wrapper
             return GetKeysCollection().AsQueryable().FirstOrDefaultAsync(_ => _.Key == key);
         }
 
-        public async Task SetKeyValue<T>(string key, T value) where T : class
+        public async Task SetKeyValue<T>(string key, T value)
 		{
-            string serializedValue = JsonConvert.SerializeObject(value);
-
             if (await GetKeysCollection().AsQueryable().AnyAsync(_ => _.Key == key))
-                await GetKeysCollection().UpdateOneAsync(_ => _.Key == key, Builders<KeyValueEntity>.Update.Set(_ => _.Value, serializedValue));
+			{
+                if (value.Equals(default(T)))
+                    await GetKeysCollection().DeleteOneAsync(_ => _.Key == key);
+                else
+                    await GetKeysCollection().UpdateOneAsync(_ => _.Key == key, Builders<KeyValueEntity>.Update.Set(_ => _.Value, JsonConvert.SerializeObject(value)));
+            }
             else
-                await GetKeysCollection().InsertOneAsync(new KeyValueEntity { Key = key, Value = serializedValue });
+                await GetKeysCollection().InsertOneAsync(new KeyValueEntity { Key = key, Value = JsonConvert.SerializeObject(value) });
         }
 
-        public async Task<T> GetKeyValue<T>(string key) where T : class
+        public async Task<T> GetKeyValue<T>(string key)
 		{
-            return (await GetKey(key))?.Value is string value 
-                ? JsonConvert.DeserializeObject<T>(value) 
+            return (await GetKey(key))?.Value is string value
+                ? JsonConvert.DeserializeObject<T>(value)
                 : default;
 		}
     }

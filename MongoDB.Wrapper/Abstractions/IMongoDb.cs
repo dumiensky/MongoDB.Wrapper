@@ -123,13 +123,13 @@ namespace MongoDB.Wrapper.Abstractions
         /// <summary>
         /// Persists the value to the key in the database
         /// </summary>
-		Task SetKeyValue<T>(string key, T value) where T : class;
+		Task SetKeyValue<T>(string key, T value);
 
         /// <summary>
         /// Gets the value associated to the key
         /// </summary>
         /// <typeparam name="T">Type of value to retrieve</typeparam>
         /// <returns>Value or default</returns>
-		Task<T> GetKeyValue<T>(string key) where T : class;
+		Task<T> GetKeyValue<T>(string key);
 	}
 }
