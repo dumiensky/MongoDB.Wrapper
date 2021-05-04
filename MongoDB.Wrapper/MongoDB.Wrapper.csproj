@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/dumiensky/MongoDB.Wrapper</RepositoryUrl>
     <PackageTags>mongodb, wrapper, crud, di, dependency injection, simple</PackageTags>
     <PackageReleaseNotes>
+			v0.4.0 - DeleteMany(), DeleteHardMany() methods added. Changed behavior of DeleteHard().
 			v0.3.1 - Fixed key-value storage null handling
 			v0.3.0 - Implemented key-value storage wrapper over MongoDb
       v0.2.0 - Implementation of Delete(), Restore() and DeleteHard(). Refactor of Replace() method.

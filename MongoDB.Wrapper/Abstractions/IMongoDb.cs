@@ -107,6 +107,14 @@ namespace MongoDB.Wrapper.Abstractions
         Task<bool> Delete<TEntity>(Guid id) where TEntity : IEntity;
 
         /// <summary>
+        /// Soft deletes (sets Deleted flag) the entities matching the selector.
+        /// </summary>
+        /// <typeparam name="TEntity">Type of entities</typeparam>
+        /// <param name="selector">Entity selector</param>
+        /// <returns>Number of entities deleted</returns>
+        Task<long> DeleteMany<T>(Expression<Func<T, bool>> selector) where T : IEntity;
+
+        /// <summary>
         /// Reverts a soft delete (un-sets Deleted flag) of an entity with given id. Throws an exception if the entity doesn't exist.
         /// </summary>
         /// <typeparam name="TEntity">Type of entity</typeparam>
@@ -119,6 +127,14 @@ namespace MongoDB.Wrapper.Abstractions
         /// <typeparam name="TEntity">Type of entity</typeparam>
         /// <param name="id">Id of the entity</param>
         Task<bool> DeleteHard<TEntity>(Guid id) where TEntity : IEntity;
+
+        /// <summary>
+        /// Deletes all entites matching the selector from the database. This is irreversible.
+        /// </summary>
+        /// <typeparam name="T">Type of entities</typeparam>
+        /// <param name="selector">Entity selector</param>
+        /// <returns>Number of entities deleted</returns>
+        Task<long> DeleteHardMany<T>(Expression<Func<T, bool>> selector) where T : IEntity;
 
         /// <summary>
         /// Persists the value to the key in the database

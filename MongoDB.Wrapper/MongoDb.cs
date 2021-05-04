@@ -124,6 +124,22 @@ namespace MongoDB.Wrapper
             return DeleteRestoreInternal<T>(id, true);
         }
 
+        public async Task<long> DeleteMany<T>(Expression<Func<T, bool>> selector) where T : IEntity
+		{
+            var entities = await Get(selector);
+            var results = new List<bool>();
+
+			for (int i = 0; i < entities.Count; i += 50)
+			{
+                var toProcess = entities.Skip(i).Take(50);
+
+                results.AddRange(
+                    await Task.WhenAll(toProcess.Select(_ => DeleteRestoreInternal<T>(_.Id, true))));
+			}
+
+            return results.Count(_ => _);
+		}
+
         public Task<bool> Restore<T>(Guid id) where T : IEntity
         {
             return DeleteRestoreInternal<T>(id, false);
@@ -141,12 +157,13 @@ namespace MongoDB.Wrapper
 
         public async Task<bool> DeleteHard<T>(Guid id) where T : IEntity
         {
-            var entity = await Get<T>(id);
-            if (entity == null)
-                throw new Exception($"Entity of type {typeof(T).Name} with id {id} was not found!");
-
-            return (await GetCollection<T>().DeleteOneAsync(_ => _.Id == entity.Id)).IsAcknowledged;
+            return (await GetCollection<T>().DeleteOneAsync(_ => _.Id == id)).IsAcknowledged;
         }
+
+        public async Task<long> DeleteHardMany<T>(Expression<Func<T, bool>> selector) where T : IEntity
+		{
+            return (await GetCollection<T>().DeleteManyAsync(selector)).DeletedCount;
+		}
 
         private Task<KeyValueEntity> GetKey(string key)
         {
