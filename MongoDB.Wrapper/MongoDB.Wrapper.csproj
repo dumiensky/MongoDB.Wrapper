@@ -1,37 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.4.0</Version>
-    <Authors>Dumiensky</Authors>
-    <Company />
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>A handy CRUD wrapper with soft deletion over MongoClient. Designed for dependency injection.</Description>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/dumiensky/MongoDB.Wrapper</RepositoryUrl>
-    <PackageTags>mongodb, wrapper, crud, di, dependency injection, simple</PackageTags>
-    <PackageReleaseNotes>
-			v0.4.0 - DeleteMany(), DeleteHardMany() methods added. Changed behavior of DeleteHard().
-			v0.3.1 - Fixed key-value storage null handling
-			v0.3.0 - Implemented key-value storage wrapper over MongoDb
-      v0.2.0 - Implementation of Delete(), Restore() and DeleteHard(). Refactor of Replace() method.
-      v0.1.0 - Initial release
-    </PackageReleaseNotes>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	<TargetFramework>netstandard2.0</TargetFramework>
+	<Version>0.4.1</Version>
+	<Authors>Dumiensky</Authors>
+	<Company />
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Description>A handy CRUD wrapper with soft deletion over MongoClient. Designed for dependency injection.</Description>
+	<RepositoryType>git</RepositoryType>
+	<RepositoryUrl>https://github.com/dumiensky/MongoDB.Wrapper</RepositoryUrl>
+	<PackageTags>mongodb, wrapper, crud, di, dependency injection, simple</PackageTags>
+	<PackageReleaseNotes>
+		v0.4.1 - Updated MongoDb.Driver to 2.14.1, other Nuget updates
+		v0.4.0 - DeleteMany(), DeleteHardMany() methods added. Changed behavior of DeleteHard().
+		v0.3.1 - Fixed key-value storage null handling
+		v0.3.0 - Implemented key-value storage wrapper over MongoDb
+		v0.2.0 - Implementation of Delete(), Restore() and DeleteHard(). Refactor of Replace() method.
+		v0.1.0 - Initial release
+	</PackageReleaseNotes>
+	<IncludeSymbols>true</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.11.4" />
-    <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+	<PackageReference Include="MongoDB.Bson" Version="2.14.1" />
+	<PackageReference Include="MongoDB.Driver" Version="2.14.1" />
   </ItemGroup>
 
   <!-- Source Link -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
